@@ -1,16 +1,16 @@
 {
-  "name": "Initiative Tracker",
+  "name": "Battle Tracker",
   "version": "1.0.0",
   "manifest_version": 1,
-  "author": "Owlbear Rodeo",
+  "author": "Platon Mysnyk",
   "homepage_url": "https://owlbear.app",
   "icon": "/logo.png",
-  "description": "A basic initiative tracker with a shared view for you and your players",
+  "description": "Advanced battle tracker with shared view for initiative values and ability for GM to add damage and HP of charaters and mosters",
   "action": {
-    "title": "Initiative Tracker",
+    "title": "Battle Tracker",
     "icon": "/icon.svg",
     "popover": "/",
     "height": 129,
-    "width": 250
+    "width": 340
   }
 }
