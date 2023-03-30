@@ -24,6 +24,8 @@ To change the characters HP just update the second input field in a row.
 
 To add healing/damage enter a value in third input and press `+` button for healing and `-` button for damage.
 
+Dead or unconcious characters and monsers are crossed from initiative list.
+
 You can move through the initiative order by clicking the arrow icon in the top of the extension popover.
 
 **Support**
