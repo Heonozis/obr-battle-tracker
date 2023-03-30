@@ -6,7 +6,7 @@ Built based on https://github.com/owlbear-rodeo/initiative-tracker
 
 ## Installing
 
-The extension can be installed from the [store page](https://extensions.owlbear.rodeo/initiative-tracker).
+The extension can be installed from the [store page](https://extensions.owlbear.rodeo/battle-tracker).
 
 ## How it Works
 
