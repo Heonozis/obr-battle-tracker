@@ -9,7 +9,7 @@
   "action": {
     "title": "Battle Tracker",
     "icon": "/obr-battle-tracker/icon.svg",
-    "popover": "/obr-battle-tracker",
+    "popover": "https://heonozis.github.io/obr-battle-tracker",
     "height": 129,
     "width": 340
   }
