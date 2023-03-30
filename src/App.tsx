@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 import OBR from "@owlbear-rodeo/sdk";
-import { InitiativeHeader } from "./InitiativeHeader";
-import { InitiativeTracker } from "./InitiativeTracker";
+import { InitiativeHeader } from "./components/InitiativeHeader";
+import { InitiativeTracker } from "./components/InitiativeTracker";
 
 export function App() {
   const [sceneReady, setSceneReady] = useState(false);

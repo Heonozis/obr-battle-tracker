@@ -14,7 +14,7 @@ export function InitiativeHeader({
   return (
     <>
       <CardHeader
-        title="Initiative"
+        title="Battle"
         action={action}
         titleTypographyProps={{
           sx: { fontSize: "1.125rem", fontWeight: "bold", lineHeight: "32px" },

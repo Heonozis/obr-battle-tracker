@@ -1,8 +1,8 @@
-# Owlbear Rodeo Initiative Tracker
+# Owlbear Rodeo Battle Tracker
 
-A basic initiative tracker with a shared view for you and your players
+A basic battle tracker with a shared view for you and your players, GM can keep track of HP of monsters and players, healing and damage. Players can't see monsters health information.
 
-![Example](/docs/header.jpg)
+Built based on https://github.com/owlbear-rodeo/initiative-tracker
 
 ## Installing
 
@@ -12,7 +12,7 @@ The extension can be installed from the [store page](https://extensions.owlbear.
 
 This project is a simple [React](https://reactjs.org/) app.
 
-It communicates with Owlbear Rodeo to create context menu items. When those menu items are clicked it edits the metadata of the item with an initiative value.
+It communicates with Owlbear Rodeo to create context menu items. When those menu items are clicked it edits the metadata of the item with an initiative, health and damage values.
 
 ## Building
 
@@ -34,8 +34,5 @@ To make a production build run:
 
 GNU GPLv3
 
-## Contributing
+Copyright (C) 2023 Platon Mysnyk
 
-This project is provided as an example of how to use the Owlbear Rodeo SDK. As such it is unlikely that we will accept pull requests for new features.
-
-Copyright (C) 2023 Owlbear Rodeo

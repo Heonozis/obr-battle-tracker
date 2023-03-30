@@ -9,30 +9,31 @@ import SkipNextRounded from "@mui/icons-material/SkipNextRounded";
 
 import OBR, { isImage, Item } from "@owlbear-rodeo/sdk";
 
-import { InitiativeItem } from "./InitiativeItem";
+import { InitiativeItem } from "../types";
 
-import addIcon from "./assets/add.svg";
-import removeIcon from "./assets/remove.svg";
+import addIcon from "../assets/add.svg";
+import removeIcon from "../assets/remove.svg";
 
 import { InitiativeListItem } from "./InitiativeListItem";
-import { getPluginId } from "./getPluginId";
+import { getPluginId } from "../obr";
 import { InitiativeHeader } from "./InitiativeHeader";
-import { isPlainObject } from "./isPlainObject";
+import { isPlainObject } from "../obr";
 
 /** Check that the item metadata is in the correct format */
 function isMetadata(
   metadata: unknown
-): metadata is { count: string; active: boolean } {
+): metadata is { count: string; active: boolean, hp: number } {
   return (
     isPlainObject(metadata) &&
     typeof metadata.count === "string" &&
-    typeof metadata.active === "boolean"
+    typeof metadata.active === "boolean" &&
+    typeof metadata.hp === "number"
   );
 }
 
 export function InitiativeTracker() {
   const [initiativeItems, setInitiativeItems] = useState<InitiativeItem[]>([]);
-
+  const [playerRole, setPlayerRole] = useState('');
   useEffect(() => {
     const handleItemsChange = (items: Item[]) => {
       const initiativeItems: InitiativeItem[] = [];
@@ -45,6 +46,7 @@ export function InitiativeTracker() {
               count: metadata.count,
               name: item.text.plainText || item.name,
               active: metadata.active,
+              hp: metadata.hp || 0,
             });
           }
         }
@@ -54,6 +56,10 @@ export function InitiativeTracker() {
 
     OBR.scene.items.getItems().then(handleItemsChange);
     return OBR.scene.items.onChange(handleItemsChange);
+  }, []);
+
+  useEffect(() => {
+    OBR.player.getRole().then(setPlayerRole);
   }, []);
 
   useEffect(() => {
@@ -73,7 +79,7 @@ export function InitiativeTracker() {
         },
         {
           icon: removeIcon,
-          label: "Remove from Initiative",
+          label: "Remove from Battle",
           filter: {
             every: [
               { key: "type", value: "IMAGE" },
@@ -96,6 +102,7 @@ export function InitiativeTracker() {
               item.metadata[getPluginId("metadata")] = {
                 count: `${count}`,
                 active: false,
+                hp: 0,
               };
               count += 1;
             } else {
@@ -109,11 +116,21 @@ export function InitiativeTracker() {
 
   function handleNextClick() {
     // Get the next index to activate
+
     const sorted = initiativeItems.sort(
       (a, b) => parseFloat(b.count) - parseFloat(a.count)
     );
-    const nextIndex =
-      (sorted.findIndex((initiative) => initiative.active) + 1) % sorted.length;
+
+    const currentIndex = sorted.findIndex((initiative) => initiative.active);
+
+    let nextIndex = (currentIndex + 1) % sorted.length;
+
+    for (let i = nextIndex; i < sorted.length; i++) {
+      if (sorted[i].hp > 0) {
+        break
+      }
+      nextIndex++;
+    }
 
     // Set local items immediately
     setInitiativeItems((prev) => {
@@ -157,6 +174,31 @@ export function InitiativeTracker() {
         const metadata = item.metadata[getPluginId("metadata")];
         if (isMetadata(metadata)) {
           metadata.count = newCount;
+        }
+      }
+    });
+  }
+
+  function handleInitiativeHealthChange(id: string, newHealth: number) {
+    // Set local items immediately
+    setInitiativeItems((prev) =>
+      prev.map((initiative) => {
+        if (initiative.id === id) {
+          return {
+            ...initiative,
+            hp: newHealth,
+          };
+        } else {
+          return initiative;
+        }
+      })
+    );
+    // Sync changes over the network
+    OBR.scene.items.updateItems([id], (items) => {
+      for (let item of items) {
+        const metadata = item.metadata[getPluginId("metadata")];
+        if (isMetadata(metadata)) {
+          metadata.hp = newHealth;
         }
       }
     });
@@ -211,10 +253,14 @@ export function InitiativeTracker() {
             .sort((a, b) => parseFloat(b.count) - parseFloat(a.count))
             .map((initiative) => (
               <InitiativeListItem
+                playerRole={playerRole}
                 key={initiative.id}
                 initiative={initiative}
                 onCountChange={(newCount) => {
                   handleInitiativeCountChange(initiative.id, newCount);
+                }}
+                onHealthChange={(newHealth) => {
+                  handleInitiativeHealthChange(initiative.id, newHealth);
                 }}
               />
             ))}
