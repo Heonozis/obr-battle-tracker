@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "manifest_version": 1,
   "author": "Platon Mysnyk",
-  "homepage_url": "https://heonozis.github.com",
+  "homepage_url": "https://heonozis.github.io",
   "icon": "/obr-battle-tracker/logo.png",
   "description": "Advanced battle tracker with shared view for initiative values and ability for GM to add damage and HP of charaters and mosters",
   "action": {
     "title": "Battle Tracker",
     "icon": "/obr-battle-tracker/icon.svg",
-    "popover": "https://heonozis.github.com/obr-battle-tracker",
+    "popover": "/obr-battle-tracker",
     "height": 129,
     "width": 340
   }
